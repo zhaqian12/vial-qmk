@@ -1,11 +1,11 @@
 # MCU name
-MCU = STM32F303
-BOARD = QMK_PROTON_C
+MCU = STM32F401
 
 # Bootloader selection
-BOOTLOADER = stm32-dfu
+BOOTLOADER = tinyuf2
 
 ## Features
-CONSOLE_ENABLE = yes
+CONSOLE_ENABLE = no
 ENCODER_ENABLE = yes
 AUDIO_ENABLE = yes
+AUDIO_DRIVER = pwm_hardware

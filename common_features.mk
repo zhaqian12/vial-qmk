@@ -525,6 +525,55 @@ ifeq ($(strip $(QMK_SETTINGS)), yes)
     OPT_DEFS += -DQMK_SETTINGS -DAUTO_SHIFT_NO_SETUP -DTAPPING_TERM_PER_KEY -DPERMISSIVE_HOLD_PER_KEY -DIGNORE_MOD_TAP_INTERRUPT_PER_KEY -DTAPPING_FORCE_HOLD_PER_KEY -DRETRO_TAPPING_PER_KEY -DCOMBO_TERM_PER_COMBO
 endif
 
+ifeq ($(strip $(RGB_MATRIX_CONTROL_REV2_ENABLE)), yes)
+	ifeq ($(strip $(RGB_MATRIX_ENABLE)), no)
+        $(error RGB_MATRIX_CONTROL requires RGB_MATRIX_ENABLE, either disable RGB_MATRIX_CONTROL explicitly or enable RGB_MATRIX)
+    endif
+	RGB_MATRIX_CONTROL_ENABLE := yes
+	SRC += $(QUANTUM_DIR)/rgb_matrix/rgb_matrix_control_rev2.c
+	OPT_DEFS += -DRGB_MATRIX_CONTROL_REV2_ENABLE
+endif
+
+ifeq ($(strip $(RGB_MATRIX_CONTROL_ENABLE)), yes)
+	ifeq ($(strip $(RGB_MATRIX_ENABLE)), no)
+        $(error RGB_MATRIX_CONTROL requires RGB_MATRIX_ENABLE, either disable RGB_MATRIX_CONTROL explicitly or enable RGB_MATRIX)
+    endif
+	ifneq ($(strip $(RGB_MATRIX_CONTROL_REV2_ENABLE)), yes)
+    	SRC += $(QUANTUM_DIR)/rgb_matrix/rgb_matrix_control.c
+	endif
+	OPT_DEFS += -DRGB_MATRIX_CONTROL_ENABLE
+endif
+
+ifeq ($(strip $(UNDERGLOW_RGB_MATRIX_ENABLE)), yes)
+	ifeq ($(strip $(RGB_MATRIX_ENABLE)), no)
+        $(error UNDERGLOW_RGB_MATRIX requires RGB_MATRIX_ENABLE, either disable UNDERGLOW_RGB_MATRIX_ENABLE explicitly or enable RGB_MATRIX)
+    endif
+    SRC += $(QUANTUM_DIR)/rgb_matrix/ugrgbmatrixeffect.c
+    OPT_DEFS += -DUNDERGLOW_RGB_MATRIX_ENABLE
+endif
+
+ifeq ($(strip $(ENCODER_TRIGGER_ENABLE)), yes)
+    ifeq ($(strip $(ENCODER_ENABLE)), no)
+        $(error ENCODER_TRIGGER_ENABLE requires ENCODER_ENABLE, either disable ENCODER_TRIGGER explicitly or enable ENCODER)
+    endif
+    SRC += $(QUANTUM_DIR)/encoder_trigger.c
+    OPT_DEFS += -DENCODER_TRIGGER_ENABLE
+endif
+
+ifeq ($(strip $(ALT_TAB_MARCO_ENABLE)), yes)
+    SRC += $(QUANTUM_DIR)/alt_tab_marco.c
+    OPT_DEFS += -DALT_TAB_MARCO_ENABLE
+endif
+
+ifeq ($(strip $(OPENRGB_ENABLE)), yes)
+     ifeq ($(strip $(VIA_ENABLE)), yes)
+        $(error OPENRGB_ENABLE and VIA_ENABLE cannot currently be enabled simultaneously)
+    endif
+    RAW_ENABLE := yes
+    SRC += $(QUANTUM_DIR)/openrgb.c
+    OPT_DEFS += -DOPENRGB_ENABLE
+endif
+
 ifeq ($(strip $(DIP_SWITCH_ENABLE)), yes)
     OPT_DEFS += -DDIP_SWITCH_ENABLE
     SRC += $(QUANTUM_DIR)/dip_switch.c

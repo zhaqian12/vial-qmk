@@ -43,7 +43,7 @@
 #define MATRIX_COL_PINS_RIGHT { B10, B15, A10, A15, B3, B4 }
 #define MATRIX_ROW_PINS_RIGHT { B0, A5, A4, A3 }
 
-/* COL2ROW, ROW2COL*/
+/* COL2ROW, ROW2COL*/           
 #define DIODE_DIRECTION COL2ROW
 
 #define MATRIX_IO_DELAY 5
@@ -52,7 +52,7 @@
  * Split Keyboard specific options, make sure you have 'SPLIT_KEYBOARD = yes' in your rules.mk, and define SOFT_SERIAL_PIN.
  */
 #define SPLIT_HAND_PIN B9
-#define SOFT_SERIAL_PIN B6
+#define SOFT_SERIAL_PIN A9
 //#define SELECT_SOFT_SERIAL_SPEED 0
 #define SERIAL_USART_SPEED 921600
 
@@ -64,7 +64,7 @@
 #define RGBLED_SPLIT {24, 24}
 #define RGBLIGHT_LIMIT_VAL 120
 #define RGBLIGHT_ANIMATIONS
-
+#    define RGBLIGHT_DEFAULT_MODE RGBLIGHT_MODE_RAINBOW_MOOD
 #define WS2812_PWM_DRIVER PWMD3
 #define WS2812_PWM_CHANNEL 4
 #define WS2812_PWM_PAL_MODE 2
