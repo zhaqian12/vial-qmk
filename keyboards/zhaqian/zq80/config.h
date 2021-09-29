@@ -1,11 +1,26 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+/* Copyright 2021 ZhaQian
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#pragma once
 
 #include "config_common.h"
 
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x00AA
-#define PRODUCT_ID      0xAA03
+#define PRODUCT_ID      0xAA05
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    ZhaQian
 #define PRODUCT         zq80
@@ -24,7 +39,7 @@
 #define DIODE_DIRECTION COL2ROW
 
 /* Set 0 if debouncing isn't needed */
-#define DEBOUNCE 5
+#define DEBOUNCE 1
 
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
 #define LOCKING_SUPPORT_ENABLE
@@ -33,7 +48,7 @@
 #define LOCKING_RESYNC_ENABLE
 
 #define FORCE_NKRO
-#define USB_POLLING_INTERVAL_MS 2
+#define USB_POLLING_INTERVAL_MS 1
 #define QMK_KEYS_PER_SCAN 4
 
 #ifdef RGBLIGHT_ENABLE
@@ -65,7 +80,7 @@
 
 #ifdef UNDERGLOW_RGB_MATRIX_ENABLE
 #define UG_RGB_MATRIX_ANIMATIONS
-// #define UG_RGB_MATRIX_WPM_ANIMATIONS
+#endif
 
 #ifdef RGB_MATRIX_CUSTOM_KB
 #define RGB_MATRIX_EFFECT_FRACTAL_RGB
@@ -75,13 +90,11 @@
 #define RGB_MATRIX_EFFECT_REACTIVE_MULTIWIDE_RGB
 #endif
 
-#ifdef VIAL_ENABLE
-#define VIAL_KEYBOARD_UID {0x39, 0x01, 0xA7, 0xB2, 0x86, 0x99, 0x7E, 0x85}
-#endif
-
 /* disable action features */
 #define NO_ACTION_TAPPING
 #define NO_ACTION_ONESHOT
 #define NO_ACTION_FUNCTION
 
-
+#ifdef VIAL_ENABLE
+#define VIAL_KEYBOARD_UID {0x45, 0x8F, 0x1C, 0xA9, 0xB5, 0x18, 0xA2, 0x17}
+#endif
