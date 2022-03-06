@@ -13,8 +13,8 @@
 #define MATRIX_ROWS 2
 #define MATRIX_COLS 2
 
-#define MATRIX_ROW_PINS { A0, A2 }
-#define MATRIX_COL_PINS { A1, A3 }
+#define MATRIX_ROW_PINS { B10, B11 }
+#define MATRIX_COL_PINS { B1, B0 }
 
 #define DIODE_DIRECTION COL2ROW
 
@@ -25,6 +25,3 @@
 
 /* Use 1000hz polling */
 #define USB_POLLING_INTERVAL_MS 1
-
-#define DYNAMIC_KEYMAP_LAYER_COUNT 10
-#define DYNAMIC_KEYMAP_MACRO_COUNT 20
