@@ -46,7 +46,7 @@ typedef struct PACKED {
     uint8_t  index[LED_HITS_TO_REMEMBER];
     uint16_t tick[LED_HITS_TO_REMEMBER];
 } last_hit_t;
-#endif  // LED_MATRIX_KEYREACTIVE_ENABLED
+#e·ndif  // LED_MATRIX_KEYREACTIVE_ENABLED
 
 typedef enum led_task_states { STARTING, RENDERING, FLUSHING, SYNCING } led_task_states;
 
