@@ -37,8 +37,8 @@
 #define MATRIX_COLS 5
 
 //                        0    1    2    3     4    5    6   7    8    9    10   11   12  13   14   15   16   17
-#define MATRIX_COL_PINS { A9,  A8, B15, B14,  B13 }
-#define MATRIX_ROW_PINS { A0,  C15,  C14 }
+#define MATRIX_COL_PINS { A1,  A0, B15, B14,  B13 }
+#define MATRIX_ROW_PINS { A2,  C15,  C14 }
 
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION COL2ROW
@@ -78,3 +78,14 @@
 #define VIAL_ENCODER_KEYCODE_DELAY 10
 #endif
 #endif
+
+#define AUDIO_PIN A8
+#define AUDIO_PWM_DRIVER PWMD1
+#define AUDIO_PWM_CHANNEL 1
+#define AUDIO_PWM_PAL_MODE 42
+#define AUDIO_STATE_TIMER GPTD4
+#ifdef AUDIO_ENABLE
+#    define STARTUP_SONG SONG(STARTUP_SOUND)
+#endif
+#define AUDIO_INIT_DELAY
+#define DYNAMIC_KEYMAP_MACRO_COUNT 20

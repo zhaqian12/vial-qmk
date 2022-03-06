@@ -78,7 +78,7 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
 #else
                 1,
 #endif
-                (keypos_t){.row = 1, .col = 5});
+                (keypos_t){.row = 1, .col = 4});
         } else {
             encoder_trigger_kb(
 #ifdef VIA_ENABLE
@@ -86,13 +86,14 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
 #else
                 1,
 #endif
-                (keypos_t){.row = 0, .col = 5});
+                (keypos_t){.row = 0, .col = 4});
         }
+    }
     return true;
 }
 #endif
 
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
 
 static const char PROGMEM oled_header[] = {0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94, 0};
 
@@ -170,6 +171,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 #endif
     }
     return process_record_user(keycode, record);
-};
+}
 
 

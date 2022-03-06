@@ -14,14 +14,9 @@
         "shortName": "ATREV"
       },
       {
-        "name": "Underglow RGB TOG",
-        "title": "Underglow RGBLight Toggle",
-        "shortName": "UGL\nRGBTog"
-      },
-      {
-        "name": "Key Backlight RGB TOG",
-        "title": "Key Switches RGBBackLight Toggle",
-        "shortName": "KBL\nRGBTog"
+        "name": "RGB CT SW",
+        "title": "RGB CONTROL SWITCH",
+        "shortName": "RGB\nCT_SW"
       }
     ],
     "layouts": {

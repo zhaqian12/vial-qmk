@@ -24,6 +24,12 @@ static uint8_t is_key_backlight_active = 1;
 static uint8_t is_logo_rgblight_active = 1;
 #endif
 
+void eeconfig_init_kb(void) {
+    // Reset Keyboard EEPROM value to blank, rather than to a set value
+    eeconfig_update_kb(1);
+    eeconfig_init_user();
+}
+
 // rgb matrix status initialized by reading from eeprom
 void rgb_matrix_control_init(void) {
     is_underglow_rgblight_active = eeprom_read_byte(EECONFIG_UGRGBTOG) % 2;

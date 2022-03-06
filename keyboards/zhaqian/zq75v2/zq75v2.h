@@ -21,6 +21,7 @@
 
 //custom keycodes
 enum custom_keycodes {
+    a = 0,
 #ifdef ALT_TAB_MARCO_ENABLE
 #ifdef VIA_ENABLE
     ATR = USER00,			//alt_shift_tab
