@@ -3,7 +3,7 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
 
-#include "sendstring_japanese.h"
+#include "sendstring_jis.h"
 
 // JIS keyboard
 #define JK_CIRC KC_EQL      // ^

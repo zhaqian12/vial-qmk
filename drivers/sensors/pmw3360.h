@@ -52,14 +52,8 @@
 #    define ROTATIONAL_TRANSFORM_ANGLE 0x00
 #endif
 
-// Support single and plural spellings
-#ifndef PMW3360_CS_PINS
-#    ifndef PMW3360_CS_PIN
-#        error "No chip select pin defined -- missing PMW3360_CS_PIN or PMW3360_CS_PINS"
-#    else
-#        define PMW3360_CS_PINS \
-            { PMW3360_CS_PIN }
-#    endif
+#ifndef PMW3360_CS_PIN
+#    error "No chip select pin defined -- missing PMW3360_CS_PIN"
 #endif
 
 typedef struct {
@@ -72,8 +66,10 @@ typedef struct {
     int8_t  mdy;
 } report_pmw3360_t;
 
-bool     pmw3360_init(int8_t index);
+bool     pmw3360_init(void);
+void     pmw3360_upload_firmware(void);
+bool     pmw3360_check_signature(void);
 uint16_t pmw3360_get_cpi(void);
 void     pmw3360_set_cpi(uint16_t cpi);
 /* Reads and clears the current delta values on the sensor */
-report_pmw3360_t pmw3360_read_burst(int8_t index);
+report_pmw3360_t pmw3360_read_burst(void);

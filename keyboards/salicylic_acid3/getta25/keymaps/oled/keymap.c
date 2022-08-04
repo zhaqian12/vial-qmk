@@ -1,5 +1,5 @@
 #include QMK_KEYBOARD_H
-#include "keymap_japanese.h"
+#include "keymap_jp.h"
 
 #ifdef OLED_ENABLE
 static uint32_t        oled_timer = 0;

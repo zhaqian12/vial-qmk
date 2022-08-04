@@ -4,8 +4,6 @@ endif
 
 .DEFAULT_GOAL := all
 
-OPT = g
-
 include paths.mk
 include $(BUILDDEFS_PATH)/message.mk
 

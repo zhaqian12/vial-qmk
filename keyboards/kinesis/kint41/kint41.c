@@ -16,12 +16,11 @@
 
 #include "kint41.h"
 
-#define LED_POWER LINE_PIN13
-
 void matrix_init_kb(void) {
     matrix_init_user();
 
-    // Turn on the Teensy 4.x Power LED:
+// Turn on the Teensy 4.x Power LED:
+#define LED_POWER LINE_PIN13
     setPinOutput(LED_POWER);
     writePinHigh(LED_POWER);
 }

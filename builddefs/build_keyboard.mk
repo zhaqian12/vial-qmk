@@ -160,20 +160,22 @@ ifneq ("$(wildcard $(KEYMAP_JSON))", "")
 
 # Add rules to generate the keymap files - indentation here is important
 $(KEYMAP_OUTPUT)/src/keymap.c: $(KEYMAP_JSON)
-	@$(SILENT) || printf "$(MSG_GENERATING) $@" | $(AWK_CMD)
-	$(eval CMD=$(QMK_BIN) json2c --quiet --output $(KEYMAP_C) $(KEYMAP_JSON))
-	@$(BUILD_CMD)
+	$(QMK_BIN) json2c --quiet --output $(KEYMAP_C) $(KEYMAP_JSON)
 
 $(KEYMAP_OUTPUT)/src/config.h: $(KEYMAP_JSON)
-	@$(SILENT) || printf "$(MSG_GENERATING) $@" | $(AWK_CMD)
-	$(eval CMD=$(QMK_BIN) generate-config-h --quiet --keyboard $(KEYBOARD) --keymap $(KEYMAP) --output $(KEYMAP_H))
-	@$(BUILD_CMD)
+	$(QMK_BIN) generate-config-h --quiet --keyboard $(KEYBOARD) --keymap $(KEYMAP) --output $(KEYMAP_H)
 
 generated-files: $(KEYMAP_OUTPUT)/src/config.h $(KEYMAP_OUTPUT)/src/keymap.c
 
 endif
 
-include $(BUILDDEFS_PATH)/converters.mk
+ifeq ($(strip $(CTPC)), yes)
+    CONVERT_TO_PROTON_C=yes
+endif
+
+ifeq ($(strip $(CONVERT_TO_PROTON_C)), yes)
+    include platforms/chibios/boards/QMK_PROTON_C/convert_to_proton_c.mk
+endif
 
 include $(BUILDDEFS_PATH)/mcu_selection.mk
 
@@ -323,29 +325,17 @@ ifneq ("$(wildcard $(KEYBOARD_PATH_5)/info.json)","")
 endif
 
 CONFIG_H += $(KEYBOARD_OUTPUT)/src/info_config.h $(KEYBOARD_OUTPUT)/src/layouts.h
-KEYBOARD_SRC += $(KEYBOARD_OUTPUT)/src/default_keyboard.c
 
 $(KEYBOARD_OUTPUT)/src/info_config.h: $(INFO_JSON_FILES)
-	@$(SILENT) || printf "$(MSG_GENERATING) $@" | $(AWK_CMD)
-	$(eval CMD=$(QMK_BIN) generate-config-h --quiet --keyboard $(KEYBOARD) --output $(KEYBOARD_OUTPUT)/src/info_config.h)
-	@$(BUILD_CMD)
-
-$(KEYBOARD_OUTPUT)/src/default_keyboard.c: $(INFO_JSON_FILES)
-	@$(SILENT) || printf "$(MSG_GENERATING) $@" | $(AWK_CMD)
-	$(eval CMD=$(QMK_BIN) generate-keyboard-c --quiet --keyboard $(KEYBOARD) --output $(KEYBOARD_OUTPUT)/src/default_keyboard.c)
-	@$(BUILD_CMD)
+	$(QMK_BIN) generate-config-h --quiet --keyboard $(KEYBOARD) --output $(KEYBOARD_OUTPUT)/src/info_config.h
 
 $(KEYBOARD_OUTPUT)/src/default_keyboard.h: $(INFO_JSON_FILES)
-	@$(SILENT) || printf "$(MSG_GENERATING) $@" | $(AWK_CMD)
-	$(eval CMD=$(QMK_BIN) generate-keyboard-h --quiet --keyboard $(KEYBOARD) --output $(KEYBOARD_OUTPUT)/src/default_keyboard.h)
-	@$(BUILD_CMD)
+	$(QMK_BIN) generate-keyboard-h --quiet --keyboard $(KEYBOARD) --output $(KEYBOARD_OUTPUT)/src/default_keyboard.h
 
 $(KEYBOARD_OUTPUT)/src/layouts.h: $(INFO_JSON_FILES)
-	@$(SILENT) || printf "$(MSG_GENERATING) $@" | $(AWK_CMD)
-	$(eval CMD=$(QMK_BIN) generate-layouts --quiet --keyboard $(KEYBOARD) --output $(KEYBOARD_OUTPUT)/src/layouts.h)
-	@$(BUILD_CMD)
+	$(QMK_BIN) generate-layouts --quiet --keyboard $(KEYBOARD) --output $(KEYBOARD_OUTPUT)/src/layouts.h
 
-generated-files: $(KEYBOARD_OUTPUT)/src/info_config.h $(KEYBOARD_OUTPUT)/src/default_keyboard.c $(KEYBOARD_OUTPUT)/src/default_keyboard.h $(KEYBOARD_OUTPUT)/src/layouts.h
+generated-files: $(KEYBOARD_OUTPUT)/src/info_config.h $(KEYBOARD_OUTPUT)/src/default_keyboard.h $(KEYBOARD_OUTPUT)/src/layouts.h
 
 .INTERMEDIATE : generated-files
 

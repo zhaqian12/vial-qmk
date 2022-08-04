@@ -44,3 +44,6 @@
 /* communication between sides */
 #define USE_SERIAL
 #define SOFT_SERIAL_PIN D2
+
+#define NO_ACTION_MACRO
+#define NO_ACTION_FUNCTION

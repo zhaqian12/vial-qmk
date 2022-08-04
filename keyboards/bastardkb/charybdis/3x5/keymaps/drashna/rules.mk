@@ -2,10 +2,7 @@
 MCU = STM32F411
 
 # Bootloader selection
-# BOOTLOADER = stm32-dfu
-BOOTLOADER := tinyuf2
-
-LTO_ENABLE := no
+BOOTLOADER = stm32-dfu
 
 BOOTMAGIC_ENABLE = yes     # Enable Bootmagic Lite
 KEYBOARD_SHARED_EP = yes
@@ -23,5 +20,3 @@ NKRO_ENABLE = yes
 CONSOLE_ENABLE = yes
 
 AUTOCORRECTION_ENABLE = yes
-
-DEBOUNCE_TYPE = asym_eager_defer_pk

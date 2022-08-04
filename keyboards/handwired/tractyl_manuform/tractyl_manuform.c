@@ -247,7 +247,7 @@ static bool has_shift_mod(void) {
  *   - default DPI: internal table index/actual DPI
  *   - sniping DPI: internal table index/actual DPI
  */
-__attribute__((unused)) static void debug_charybdis_config_to_console(charybdis_config_t* config) {
+static void debug_charybdis_config_to_console(charybdis_config_t* config) {
 #    ifdef CONSOLE_ENABLE
     dprintf("(charybdis) process_record_kb: config = {\n"
             "\traw = 0x%04X,\n"
@@ -264,6 +264,7 @@ __attribute__((unused)) static void debug_charybdis_config_to_console(charybdis_
 
 bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
     if (!process_record_user(keycode, record)) {
+        debug_charybdis_config_to_console(&g_charybdis_config);
         return false;
     }
 #    ifndef NO_CHARYBDIS_KEYCODES
@@ -320,6 +321,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
         pointing_device_send();
     }
 #    endif  // !MOUSEKEY_ENABLE
+    debug_charybdis_config_to_console(&g_charybdis_config);
     return true;
 }
 

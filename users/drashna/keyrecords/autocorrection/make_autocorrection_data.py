@@ -1,4 +1,4 @@
-# Copyright 2021-2022 Google LLC
+# Copyright 2021 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ Each line of the dict file defines one typo and its correction with the syntax
 Example:
 
   :thier        -> their
-  dosen't       -> doesn't
   fitler        -> filter
   lenght        -> length
   ouput         -> output
@@ -43,7 +42,7 @@ https://getreuer.info/posts/keyboards/autocorrection
 
 import sys
 import textwrap
-from typing import Any, Dict, Iterator, List, Tuple
+from typing import Any, Dict, List, Tuple
 
 try:
   from english_words import english_words_lower_alpha_set as CORRECT_WORDS
@@ -52,67 +51,85 @@ except ImportError:
         'correctly spelled word. To check for this, install the english_words '
         'package and rerun this script:\n\n  pip install english_words\n')
   # Use a minimal word list as a fallback.
-  CORRECT_WORDS = ('apparent', 'association', 'available', 'classification',
-                   'effect', 'entertainment', 'fantastic', 'information',
-                   'integrate', 'international', 'language', 'loosest',
-                   'manual', 'nothing', 'provides', 'reference', 'statehood',
-                   'technology', 'virtually', 'wealthier', 'wonderful')
+  CORRECT_WORDS = ('information', 'available', 'international', 'language',
+                   'loosest', 'reference', 'wealthier', 'entertainment',
+                   'association', 'provides', 'technology', 'statehood')
 
 KC_A = 4
 KC_SPC = 0x2c
-KC_QUOT = 0x34
-
-TYPO_CHARS = dict(
-  [
-    ("'", KC_QUOT),
-    (':', KC_SPC),  # "Word break" character.
-  ] +
-  # Characters a-z.
-  [(chr(c), c + KC_A - ord('a')) for c in range(ord('a'), ord('z') + 1)]
-)
-
 
 def parse_file(file_name: str) -> List[Tuple[str, str]]:
   """Parses autocorrections dictionary file.
 
   Each line of the file defines one typo and its correction with the syntax
   "typo -> correction". Blank lines or lines starting with '#' are ignored. The
-  function validates that typos only have characters in TYPO_CHARS, that
-  typos are not substrings of other typos, and checking that typos don't trigger
-  on CORRECT_WORDS.
+  function validates that typos only have characters a-z and that typos are not
+  substrings of other typos, otherwise the longer typo would never trigger.
 
   Args:
     file_name: String, path of the autocorrections dictionary.
   Returns:
     List of (typo, correction) tuples.
   """
-  correct_words = ('information', 'available', 'international', 'language', 'loosest', 'reference', 'wealthier', 'entertainment', 'association', 'provides', 'technology', 'statehood')
+
   autocorrections = []
   typos = set()
-  for line_number, typo, correction in parse_file_lines(file_name):
-    if typo in typos:
-      print(f'Warning:{line_number}: Ignoring duplicate typo: "{typo}"')
-      continue
-
-    # Check that `typo` is valid.
-    if not(all([c in TYPO_CHARS for c in typo])):
-      print(f'Error:{line_number}: Typo "{typo}" has '
-            'characters other than ' + ''.join(TYPO_CHARS.keys()))
-      sys.exit(1)
-    for other_typo in typos:
-      if typo in other_typo or other_typo in typo:
-        print(f'Error:{line_number}: Typos may not be substrings of one '
-              f'another, otherwise the longer typo would never trigger: '
-              f'"{typo}" vs. "{other_typo}".')
+  line_number = 0
+  for line in open(file_name, 'rt'):
+    line_number += 1
+    line = line.strip()
+    if line and line[0] != '#':
+      # Parse syntax "typo -> correction", using strip to ignore indenting.
+      tokens = [token.strip() for token in line.split('->', 1)]
+      if len(tokens) != 2 or not tokens[0]:
+        print(f'Error:{line_number}: Invalid syntax: "{line}"')
         sys.exit(1)
-    if len(typo) < 5:
-      print(f'Warning:{line_number}: It is suggested that typos are at '
-            f'least 5 characters long to avoid false triggers: "{typo}"')
 
-    check_typo_against_dictionary(typo, line_number, correct_words)
+      typo, correction = tokens
+      typo = typo.lower()  # Force typos to lowercase.
+      typo = typo.replace(' ', ':')
 
-    autocorrections.append((typo, correction))
-    typos.add(typo)
+      if typo in typos:
+        print(f'Warning:{line_number}: Ignoring duplicate typo: "{typo}"')
+        continue
+
+      # Check that `typo` is valid.
+      if not(all([ord('a') <= ord(c) <= ord('z') or c == ':' for c in typo])):
+        print(f'Error:{line_number}: Typo "{typo}" has '
+              'characters other than a-z and :.')
+        sys.exit(1)
+      for other_typo in typos:
+        if typo in other_typo or other_typo in typo:
+          print(f'Error:{line_number}: Typos may not be substrings of one '
+                f'another, otherwise the longer typo would never trigger: '
+                f'"{typo}" vs. "{other_typo}".')
+          sys.exit(1)
+      if len(typo) < 5:
+        print(f'Warning:{line_number}: It is suggested that typos are at '
+              f'least 5 characters long to avoid false triggers: "{typo}"')
+
+      if typo.startswith(':') and typo.endswith(':'):
+        if typo[1:-1] in CORRECT_WORDS:
+          print(f'Warning:{line_number}: Typo "{typo}" is a correctly spelled '
+                'dictionary word.')
+      elif typo.startswith(':') and not typo.endswith(':'):
+        for word in CORRECT_WORDS:
+          if word.startswith(typo[1:]):
+            print(f'Warning:{line_number}: Typo "{typo}" would falsely trigger '
+                  f'on correctly spelled word "{word}".')
+      elif not typo.startswith(':') and typo.endswith(':'):
+        for word in CORRECT_WORDS:
+          if word.endswith(typo[:-1]):
+            print(f'Warning:{line_number}: Typo "{typo}" would falsely trigger '
+                  f'on correctly spelled word "{word}".')
+      elif not typo.startswith(':') and not typo.endswith(':'):
+        for word in CORRECT_WORDS:
+          if typo in word:
+            print(f'Warning:{line_number}: Typo "{typo}" would falsely trigger '
+                  f'on correctly spelled word "{word}".')
+
+      autocorrections.append((typo, correction))
+      typos.add(typo)
 
   return autocorrections
 
@@ -135,47 +152,6 @@ def make_trie(autocorrections: List[Tuple[str, str]]) -> Dict[str, Any]:
   return trie
 
 
-def parse_file_lines(file_name: str) -> Iterator[Tuple[int, str, str]]:
-  """Parses lines read from `file_name` into typo-correction pairs."""
-
-  line_number = 0
-  for line in open(file_name, 'rt'):
-    line_number += 1
-    line = line.strip()
-    if line and line[0] != '#':
-      # Parse syntax "typo -> correction", using strip to ignore indenting.
-      tokens = [token.strip() for token in line.split('->', 1)]
-      if len(tokens) != 2 or not tokens[0]:
-        print(f'Error:{line_number}: Invalid syntax: "{line}"')
-        sys.exit(1)
-
-      typo, correction = tokens
-      typo = typo.lower()  # Force typos to lowercase.
-      typo = typo.replace(' ', ':')
-
-      yield line_number, typo, correction
-
-
-def check_typo_against_dictionary(typo: str, line_number: int, correct_words) -> None:
-  """Checks `typo` against English dictionary words."""
-
-  if typo.startswith(':') and typo.endswith(':'):
-    if typo[1:-1] in correct_words:
-      print(f'Warning:{line_number}: Typo "{typo}" is a correctly spelled dictionary word.')
-  elif typo.startswith(':') and not typo.endswith(':'):
-    for word in correct_words:
-      if word.startswith(typo[1:]):
-            print(f'Warning:{line_number}: Typo "{typo}" would falsely trigger on correctly spelled word "{word}".')
-  elif not typo.startswith(':') and typo.endswith(':'):
-    for word in correct_words:
-      if word.endswith(typo[:-1]):
-            print(f'Warning:{line_number}: Typo "{typo}" would falsely trigger on correctly spelled word "{word}".')
-  elif not typo.startswith(':') and not typo.endswith(':'):
-    for word in correct_words:
-      if typo in word:
-        print(f'Warning:{line_number}: Typo "{typo}" would falsely trigger on correctly spelled word "{word}".')
-
-
 def serialize_trie(autocorrections: List[Tuple[str, str]],
                    trie: Dict[str, Any]) -> List[int]:
   """Serializes trie and correction data in a form readable by the C code.
@@ -189,7 +165,7 @@ def serialize_trie(autocorrections: List[Tuple[str, str]],
   table = []
 
   # Traverse trie in depth first order.
-  def traverse(trie_node: Dict[str, Any]) -> Dict[str, Any]:
+  def traverse(trie_node):
     if 'LEAF' in trie_node:  # Handle a leaf trie node.
       typo, correction = trie_node['LEAF']
       word_boundary_ending = typo[-1] == ':'
@@ -224,33 +200,35 @@ def serialize_trie(autocorrections: List[Tuple[str, str]],
 
   traverse(trie)
 
-  def serialize(e: Dict[str, Any]) -> List[int]:
+  def serialize(e):
+    def kc_code(c):
+      if ord('a') <= ord(c) <= ord('z'):
+        return ord(c) - ord('a') + KC_A
+      elif c == ':':
+        return KC_SPC
+      else:
+        raise ValueError(f'Invalid character: {c}')
+
+    encode_link = lambda link: [link['byte_offset'] & 255,
+                                link['byte_offset'] >> 8]
+
     if not e['links']:  # Handle a leaf table entry.
       return e['data']
     elif len(e['links']) == 1:  # Handle a chain table entry.
-      return [TYPO_CHARS[c] for c in e['chars']] + [0]
+      return list(map(kc_code, e['chars'])) + [0] #+ encode_link(e['links'][0]))
     else:  # Handle a branch table entry.
       data = []
       for c, link in zip(e['chars'], e['links']):
-        data += [TYPO_CHARS[c] | (0 if data else 64)] + encode_link(link)
+        data += [kc_code(c) | (0 if data else 64)] + encode_link(link)
       return data + [0]
 
   byte_offset = 0
   for e in table:  # To encode links, first compute byte offset of each entry.
     e['byte_offset'] = byte_offset
     byte_offset += len(serialize(e))
+    assert 0 <= byte_offset <= 0xffff
 
   return [b for e in table for b in serialize(e)]  # Serialize final table.
-
-
-def encode_link(link: Dict[str, Any]) -> List[int]:
-  """Encodes a node link as two bytes."""
-  byte_offset = link['byte_offset']
-  if not (0 <= byte_offset <= 0xffff):
-    print('Error: The autocorrection table is too large, a node link exceeds '
-          '64KB limit. Try reducing the autocorrection dict to fewer entries.')
-    sys.exit(1)
-  return [byte_offset & 255, byte_offset >> 8]
 
 
 def write_generated_code(autocorrections: List[Tuple[str, str]],
@@ -264,10 +242,7 @@ def write_generated_code(autocorrections: List[Tuple[str, str]],
     file_name: String, path of the output C file.
   """
   assert all(0 <= b <= 255 for b in data)
-
-  def typo_len(e: Tuple[str, str]) -> int:
-    return len(e[0])
-
+  typo_len = lambda e: len(e[0])
   min_typo = min(autocorrections, key=typo_len)[0]
   max_typo = max(autocorrections, key=typo_len)[0]
   generated_code = ''.join([
@@ -277,8 +252,9 @@ def write_generated_code(autocorrections: List[Tuple[str, str]],
                    for typo, correction in autocorrections)),
     f'\n#define AUTOCORRECTION_MIN_LENGTH {len(min_typo)}  // "{min_typo}"\n',
     f'#define AUTOCORRECTION_MAX_LENGTH {len(max_typo)}  // "{max_typo}"\n\n',
-    textwrap.fill('static const uint8_t autocorrection_data[%d] PROGMEM = {%s};' % (
-      len(data), ', '.join(map(str, data))), width=80, subsequent_indent='  '),
+    f'#define DICTIONARY_SIZE {len(data)}\n\n',
+    textwrap.fill('static const uint8_t autocorrection_data[DICTIONARY_SIZE] PROGMEM = {%s};' % (
+      ', '.join(map(str, data))), width=120, subsequent_indent='    '),
     '\n\n'])
 
   with open(file_name, 'wt') as f:

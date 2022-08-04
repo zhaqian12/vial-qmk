@@ -41,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └───────┴───┘───┘
      */
     [1] = LAYOUT_numpad_6x4(
-        QK_BOOT,   _______, _______, _______,
+        RESET,   _______, _______, _______,
         _______, _______, _______, _______,
         KC_HOME, KC_UP,   KC_PGUP,
         KC_LEFT, XXXXXXX, KC_RGHT, _______,

@@ -4,9 +4,8 @@ argcomplete
 colorama
 hid
 hjson
-jsonschema>=4
+jsonschema>=3
 milc>=1.4.2
 pygments
 pyusb
 qmk-dotty-dict
-pillow

@@ -46,6 +46,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Bootmagic Lite key configuration */
 #define BOOTMAGIC_LITE_ROW 0
 #define BOOTMAGIC_LITE_COLUMN 1
-
-/* Workaround for https://github.com/qmk/qmk_firmware/issues/11389 */
-#define IGNORE_ATOMIC_BLOCK

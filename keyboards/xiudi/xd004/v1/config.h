@@ -75,3 +75,5 @@ further optimizations can be done on that side.
 /* disable action features */
 // #define NO_ACTION_ONESHOT // 462 bytes <- this needs to be un-commented out if Link Time Optimization is disabled, otherwise file is too large
 // The two below are implicit since we use LTO_ENABLE (in rules.mk)
+// #define NO_ACTION_MACRO
+// #define NO_ACTION_FUNCTION

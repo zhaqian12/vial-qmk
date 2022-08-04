@@ -1,5 +1,5 @@
 #include QMK_KEYBOARD_H
-#include "keymap_japanese.h"
+#include "keymap_jp.h"
 
 // clang-format off
 enum layers { _QWERTY, _LOWER, _RAISE, _ADJUST };

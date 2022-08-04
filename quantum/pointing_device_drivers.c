@@ -98,9 +98,17 @@ const pointing_device_driver_t pointing_device_driver = {
 // clang-format on
 #elif defined(POINTING_DEVICE_DRIVER_cirque_pinnacle_i2c) || defined(POINTING_DEVICE_DRIVER_cirque_pinnacle_spi)
 #    ifndef CIRQUE_PINNACLE_TAPPING_TERM
-#        include "action.h"
-#        include "action_tapping.h"
-#        define CIRQUE_PINNACLE_TAPPING_TERM GET_TAPPING_TERM(KC_BTN1, &(keyrecord_t){})
+#        ifdef TAPPING_TERM_PER_KEY
+#            include "action.h"
+#            include "action_tapping.h"
+#            define CIRQUE_PINNACLE_TAPPING_TERM get_tapping_term(KC_BTN1, &(keyrecord_t){})
+#        else
+#            ifdef TAPPING_TERM
+#                define CIRQUE_PINNACLE_TAPPING_TERM TAPPING_TERM
+#            else
+#                define CIRQUE_PINNACLE_TAPPING_TERM 200
+#            endif
+#        endif
 #    endif
 #    ifndef CIRQUE_PINNACLE_TOUCH_DEBOUNCE
 #        define CIRQUE_PINNACLE_TOUCH_DEBOUNCE (CIRQUE_PINNACLE_TAPPING_TERM * 8)
@@ -200,11 +208,11 @@ const pointing_device_driver_t pointing_device_driver = {
 // clang-format on
 #elif defined(POINTING_DEVICE_DRIVER_pmw3360)
 static void pmw3360_device_init(void) {
-    pmw3360_init(0);
+    pmw3360_init();
 }
 
 report_mouse_t pmw3360_get_report(report_mouse_t mouse_report) {
-    report_pmw3360_t data        = pmw3360_read_burst(0);
+    report_pmw3360_t data        = pmw3360_read_burst();
     static uint16_t  MotionStart = 0; // Timer for accel, 0 is resting state
 
     if (data.isOnSurface && data.isMotion) {

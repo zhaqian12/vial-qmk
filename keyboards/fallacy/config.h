@@ -59,6 +59,10 @@
  */
 #define LOCKING_RESYNC_ENABLE
 
+/* prevent stuck modifiers
+ */
+#define PREVENT_STUCK_MODIFIERS
+
 #define RGB_DI_PIN D2
 #define RGBLIGHT_ANIMATIONS
 #define RGBLED_NUM 14

@@ -11,9 +11,6 @@
     '2_milk': {
           target: 'spaceman/2_milk'
     },
-    'absinthe': {
-        target: 'keyhive/absinthe'
-    },
     'aeboards/constellation': {
           target: 'aeboards/constellation/rev1'
     },
@@ -29,18 +26,6 @@
     alice: {
           target: 'tgr/alice'
     },
-    amj40: {
-        target: 'amjkeyboard/amj40'
-    },
-    amj60: {
-        target: 'amjkeyboard/amj60'
-    },
-    amj96: {
-        target: 'amjkeyboard/amj96'
-    },
-    amjpad: {
-        target: 'amjkeyboard/amjpad'
-    },
     angel17: {
           target: 'angel17/alpha'
     },
@@ -48,10 +33,7 @@
           target: 'angel64/alpha'
     },
     at101_blackheart: {
-          target: 'viktus/at101_bh'
-    },
-    at101_bh: {
-        target: 'viktus/at101_bh'
+          target: 'at101_bh'
     },
     'atom47/rev2': {
           target: 'maartenwut/atom47/rev2'
@@ -176,9 +158,6 @@
     ergoinu: {
           target: 'dm9records/ergoinu'
     },
-    ergosaurus: {
-        target: 'keyhive/ergosaurus'
-    },
     'exclusive/e85': {
           target: 'exclusive/e85/hotswap'
     },
@@ -186,13 +165,7 @@
           target: 'gh60/revc'
     },
     'gmmk/pro': {
-          target: 'gmmk/pro/rev1/ansi'
-    },
-    'gmmk/pro/ansi': {
-        target: 'gmmk/pro/rev1/ansi'
-    },
-    'gmmk/pro/iso': {
-        target: 'gmmk/pro/rev1/iso'
+          target: 'gmmk/pro/ansi'
     },
     'handwired/ferris': {
           target: 'ferris/0_1'
@@ -238,9 +211,6 @@
     },
     'helix/rev2/under/oled': {
           target: 'helix/rev2/under'
-    },
-    honeycomb: {
-        target: 'keyhive/honeycomb'
     },
     id80: {
           target: 'id80/ansi'
@@ -289,9 +259,6 @@
     },
     'kyria': {
           target: 'splitkb/kyria'
-    },
-    lattice60: {
-        target: 'keyhive/lattice60'
     },
     'lazydesigners/the60': {
           target: 'lazydesigners/the60/rev1'
@@ -425,13 +392,7 @@
           target: 'oddball/v1'
     },
     omnikey_blackheart: {
-          target: 'viktus/omnikey_bh'
-    },
-    omnikey_bh: {
-        target: 'viktus/omnikey_bh'
-    },
-    opus: {
-        target: 'keyhive/opus'
+          target: 'omnikey_bh'
     },
     'pabile/p20': {
           target: 'pabile/p20/ver1'
@@ -528,12 +489,6 @@
     skog: {
           target: 'percent/skog'
     },
-    smallice: {
-        target: 'keyhive/smallice'
-    },
-    southpole: {
-        target: 'keyhive/southpole'
-    },
     speedo: {
           target: 'cozykeys/speedo/v2'
     },
@@ -622,10 +577,7 @@
           target: 'ymd75/rev1'
     },
     z150_blackheart: {
-          target: 'viktus/z150_bh'
-    },
-    z150_bh:{
-        target: 'viktus/z150_bh'
+          target: 'z150_bh'
     },
     zeal60: {
           target: 'wilba_tech/zeal60'
@@ -952,9 +904,6 @@
     meishi2: {
         target: 'biacco42/meishi2'
     },
-    melody96: {
-        target: 'ymdk/melody96'
-    },
     minidox/rev1: {
         target: 'maple_computing/minidox/rev1'
     },
@@ -969,18 +918,6 @@
     },
     montex: {
         target: 'idobao/montex/v1'
-    },
-    mt40: {
-        target: 'mt/mt40'
-    },
-    mt64rgb: {
-        target: 'mt/mt64rgb'
-    },
-    mt84: {
-        target: 'mt/mt84'
-    },
-    mt980: {
-        target: 'mt/mt980'
     },
     nafuda: {
         target: 'salicylic_acid3/nafuda'
@@ -1005,9 +942,6 @@
     },
     namecard2x4: {
         target: 'takashiski/namecard2x4'
-    },
-    navi10: {
-        target: 'keyhive/navi10'
     },
     nebula12: {
         target: 'spaceholdings/nebula12'
@@ -1210,12 +1144,6 @@
     underscore33/rev2: {
         target: 'tominabox1/underscore33/rev2'
     },
-    uno: {
-        target: 'keyhive/uno'
-    },
-    ut472: {
-        target: 'keyhive/ut472'
-    },
     vn66: {
         target: 'hnahkb/vn66'
     },
@@ -1224,12 +1152,6 @@
     },
     wanten: {
         target: 'qpockets/wanten'
-    },
-    'wheatfield/blocked65': {
-        target: 'mt/blocked65'
-    },
-    'wheatfield/split75': {
-        target: 'mt/split75'
     },
     whitefox: {
         target: 'input_club/whitefox'

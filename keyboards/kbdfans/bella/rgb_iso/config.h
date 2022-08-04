@@ -34,6 +34,7 @@
 
 #define DEBOUNCE 5
 
+/* disable these deprecated features by default */
 #ifdef RGB_MATRIX_ENABLE
 #define RGB_DISABLE_AFTER_TIMEOUT 0 // number of ticks to wait until disabling effects
 #define RGB_DISABLE_WHEN_USB_SUSPENDED // turn off effects when suspended

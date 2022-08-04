@@ -1,22 +1,24 @@
-BOOTMAGIC_ENABLE   = yes      # Enable Bootmagic Lite
+BOOTMAGIC_ENABLE = yes      # Enable Bootmagic Lite
 MOUSEKEY_ENABLE    = no       # Mouse keys
-EXTRAKEY_ENABLE    = yes      # Audio control and System control
+EXTRAKEY_ENABLE    = yes       # Audio control and System control
 TAP_DANCE_ENABLE   = no
+SPACE_CADET_ENABLE = no
 NKRO_ENABLE        = yes
 CAPS_WORD_ENABLE   = no
-CONSOLE_ENABLE     = no
-COMMAND_ENABLE     = no
-BACKLIGHT_ENABLE   = no
 
-ifeq ($(strip $(LAYOUT_HAS_RGB)), yes)
-    RGBLIGHT_ENABLE            = yes
-endif
-
-ifeq ($(strip $(KEYBOARD)), planck/rev6)
+ifneq ($(strip $(KEYBOARD)), planck/rev6)
+    CONSOLE_ENABLE              = no
+    COMMAND_ENABLE              = no
+    ifeq ($(strip $(LAYOUT_HAS_RGB)), yes)
+        RGBLIGHT_ENABLE         = yes
+        INDICATOR_LIGHTS        = yes
+        RGBLIGHT_STARTUP_ANIMATION  = yes
+    endif
+else
     CONSOLE_ENABLE              = yes
     RGBLIGHT_ENABLE             = yes
-    RGB_MATRIX_ENABLE           = no
     RGBLIGHT_STARTUP_ANIMATION  = yes
+    RGB_MATRIX_ENABLE           = no
     AUDIO_ENABLE                = yes
     EEPROM_DRIVER               = i2c
     ENCODER_MAP_ENABLE          = yes

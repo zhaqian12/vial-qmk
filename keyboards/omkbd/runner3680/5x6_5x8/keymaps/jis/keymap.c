@@ -15,7 +15,7 @@
  */
 
 #include QMK_KEYBOARD_H
-#include "keymap_japanese.h"
+#include "keymap_jp.h"
 
 enum layer_number {
     _QWERTY = 0,

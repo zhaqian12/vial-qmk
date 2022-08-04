@@ -321,7 +321,7 @@ void haptic_play(void) {
     DRV_pulse(play_eff);
 #endif
 #ifdef SOLENOID_ENABLE
-    solenoid_fire_handler();
+    solenoid_fire();
 #endif
 }
 

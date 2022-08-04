@@ -183,7 +183,12 @@ if (!QS_auto_shift_modifiers) {
 #            endif
         ) &&
 #        endif
-        TIMER_DIFF_16(now, autoshift_time) < GET_TAPPING_TERM(autoshift_lastkey, record)
+        TIMER_DIFF_16(now, autoshift_time) <
+#        ifdef TAPPING_TERM_PER_KEY
+        get_tapping_term(autoshift_lastkey, record)
+#        else
+        TAPPING_TERM
+#        endif
     ) {
         // clang-format on
         // Allow a tap-then-hold for keyrepeat.

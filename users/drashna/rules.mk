@@ -3,8 +3,6 @@ SRC += $(USER_PATH)/drashna.c \
         $(USER_PATH)/keyrecords/process_records.c \
         $(USER_PATH)/keyrecords/tapping.c
 
-# TOP_SYMBOLS = yes
-
 ifneq ($(PLATFORM),CHIBIOS)
     ifneq ($(strip $(LTO_SUPPORTED)), no)
         LTO_ENABLE        = yes
@@ -15,10 +13,8 @@ GRAVE_ESC_ENABLE      = no
 # DEBUG_MATRIX_SCAN_RATE_ENABLE = api
 
 ifneq ($(strip $(NO_SECRETS)), yes)
-    ifneq ("$(wildcard $(USER_PATH)/../../../qmk_secrets/secrets.c)","")
-        SRC += $(USER_PATH)/../../../qmk_secrets/secrets.c
-        $(shell touch $(USER_PATH)/../../../qmk_secrets/secrets.c)
-        SECURE_ENABLE = yes
+    ifneq ("$(wildcard $(USER_PATH)/keyrecords/secrets.c)","")
+        SRC += $(USER_PATH)/keyrecords/secrets.c
     endif
     ifeq ($(strip $(NO_SECRETS)), lite)
         OPT_DEFS += -DNO_SECRETS
@@ -57,7 +53,6 @@ CUSTOM_RGBLIGHT ?= yes
 ifeq ($(strip $(RGBLIGHT_ENABLE)), yes)
     ifeq ($(strip $(CUSTOM_RGBLIGHT)), yes)
         SRC += $(USER_PATH)/rgb/rgb_stuff.c
-        OPT_DEFS += -DCUSTOM_RGBLIGHT
         ifeq ($(strip $(RGBLIGHT_NOEEPROM)), yes)
             OPT_DEFS += -DRGBLIGHT_NOEEPROM
         endif
@@ -72,7 +67,6 @@ CUSTOM_RGB_MATRIX ?= yes
 ifeq ($(strip $(RGB_MATRIX_ENABLE)), yes)
     ifeq ($(strip $(CUSTOM_RGB_MATRIX)), yes)
         SRC += $(USER_PATH)/rgb/rgb_matrix_stuff.c
-        OPT_DEFS += -DCUSTOM_RGB_MATRIX
     endif
 endif
 
@@ -92,7 +86,7 @@ ifeq ($(strip $(OLED_ENABLE)), yes)
         QUANTUM_LIB_SRC += i2c_master.c
     endif
     ifeq ($(strip $(CUSTOM_OLED_DRIVER)), yes)
-        OPT_DEFS += -DCUSTOM_OLED_DRIVER
+        OPT_DEFS += -DCUSTOM_OLED_DRIVER_CODE
         SRC += $(USER_PATH)/oled/oled_stuff.c
     endif
     ifeq ($(strip $(OLED_DISPLAY_TEST)), yes)
@@ -105,7 +99,6 @@ CUSTOM_POINTING_DEVICE ?= yes
 ifeq ($(strip $(POINTING_DEVICE_ENABLE)), yes)
     ifeq ($(strip $(CUSTOM_POINTING_DEVICE)), yes)
         SRC += $(USER_PATH)/pointing/pointing.c
-        OPT_DEFS += -DCUSTOM_POINTING_DEVICE
     endif
 endif
 
@@ -121,6 +114,11 @@ endif
 AUTOCORRECTION_ENABLE ?= no
 ifeq ($(strip $(AUTOCORRECTION_ENABLE)), yes)
     SRC += $(USER_PATH)/keyrecords/autocorrection/autocorrection.c
-    $(shell touch $(USER_PATH)/keyrecords/autocorrection/autocorrection.c)
     OPT_DEFS += -DAUTOCORRECTION_ENABLE
+endif
+
+CAPS_WORD_ENABLE ?= no
+ifeq ($(strip $(CAPS_WORD_ENABLE)), yes)
+    SRC += $(USER_PATH)/keyrecords/caps_word.c
+    OPT_DEFS += -DCAPS_WORD_ENABLE
 endif

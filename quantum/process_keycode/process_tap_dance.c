@@ -174,7 +174,11 @@ void tap_dance_task() {
         if (action->custom_tapping_term > 0) {
             tap_user_defined = action->custom_tapping_term;
         } else {
-            tap_user_defined = GET_TAPPING_TERM(action->state.keycode, &(keyrecord_t){});
+#ifdef TAPPING_TERM_PER_KEY
+            tap_user_defined = get_tapping_term(action->state.keycode, &(keyrecord_t){});
+#else
+            tap_user_defined = TAPPING_TERM;
+#endif
         }
         if (action->state.count && timer_elapsed(action->state.timer) > tap_user_defined) {
             process_tap_dance_action_on_dance_finished(action);

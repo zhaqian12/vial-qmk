@@ -188,10 +188,6 @@ extern layer_state_t layer_state;
 #    include "st7565.h"
 #endif
 
-#ifdef QUANTUM_PAINTER_ENABLE
-#    include "qp.h"
-#endif
-
 #ifdef DIP_SWITCH_ENABLE
 #    include "dip_switch.h"
 #endif
@@ -200,17 +196,8 @@ extern layer_state_t layer_state;
 #    include "process_dynamic_macro.h"
 #endif
 
-#ifdef SECURE_ENABLE
-#    include "secure.h"
-#    include "process_secure.h"
-#endif
-
 #ifdef DYNAMIC_KEYMAP_ENABLE
 #    include "dynamic_keymap.h"
-#endif
-
-#ifdef JOYSTICK_ENABLE
-#    include "joystick.h"
 #endif
 
 #ifdef VIA_ENABLE
@@ -231,11 +218,6 @@ extern layer_state_t layer_state;
 
 #ifdef POINTING_DEVICE_ENABLE
 #    include "pointing_device.h"
-#endif
-
-#ifdef CAPS_WORD_ENABLE
-#    include "caps_word.h"
-#    include "process_caps_word.h"
 #endif
 
 // For tri-layer
@@ -260,7 +242,6 @@ void     post_process_record_user(uint16_t keycode, keyrecord_t *record);
 bool     process_record_quantum_helper(uint16_t keycode, keyrecord_t *record);
 
 void reset_keyboard(void);
-void soft_reset_keyboard(void);
 
 void startup_user(void);
 void shutdown_user(void);

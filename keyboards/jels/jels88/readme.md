@@ -2,7 +2,7 @@
 
 ![jels88](https://i.imgur.com/7kuYR4G.png)
 
-* Keyboard Maintainer: [jels](https://github.com/Jels02)
+* Keyboard Maintainer: [jels](https://github.com/Jels-kb)
 * Hardware Supported: jels88b/jels88c PCB
 * Hardware Availabililty: Group buys, Various dates.
 
